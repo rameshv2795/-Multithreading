@@ -29,6 +29,7 @@ public class Talking {
         
         if(!isAsking){
             try{
+                System.out.println("Asker waiting");
                 wait();
             }
             catch(InterruptedException e){

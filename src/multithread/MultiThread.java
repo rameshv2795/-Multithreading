@@ -23,8 +23,7 @@ public class MultiThread {
         QuestionAnswer q = new QuestionAnswer(true,"Jim",talk);
         QuestionAnswer a = new QuestionAnswer(false,"Larry",talk);
         
-        q.start();
-        a.start();
+
         //t1.start();
         //t2.start();
         //t1.run();

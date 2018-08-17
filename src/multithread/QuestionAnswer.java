@@ -10,37 +10,41 @@ package multithread;
  *
  * @author Vinod Ramesh
  */
-public class QuestionAnswer extends Thread {
+public class QuestionAnswer implements Runnable {
     private Talking talk;
     private Thread t;
     private Boolean isAsker;
-    private String name;
     
     QuestionAnswer(Boolean ia, String n, Talking ta){
         isAsker = ia;
-        name = n;
+        if(ia){
+            t = new Thread(this,"Q");
+            t.start();
+        }
+        else{
+            t = new Thread(this,"A");
+            t.start();
+        }        
         talk = ta;
     }
     
     @Override
-    public void start(){
-        if(isAsker){
+    public void run(){
+        
+        if(t.getName().equals("Q")){
             for(int i = 0; i < 4; i++){
-                System.out.println(name + " Asks: ");
+                //System.out.println("Q: ");
                 talk.ask();
                 System.out.println("");
             }
         }    
-        else if(!isAsker){
+        else{
                 for(int i = 0; i < 4; i++){
-                    System.out.println(name + " Answers: ");
+                    //System.out.println("A: ");
                     talk.answer();
                     System.out.println("");
                 }
         }         
     }
-    public void run(){
-        t = new Thread(this,name);
-        t.start();
-    }
+
 }
