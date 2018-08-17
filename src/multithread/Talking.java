@@ -13,10 +13,10 @@ import java.util.HashMap;
  * @author Vinod Ramesh
  */
 public class Talking {
-    Boolean isAsking;
-    int question_answer_number;
-    HashMap<Integer,String> questions = new HashMap<Integer,String>();
-    HashMap<Integer,String> answers = new HashMap<Integer,String>();
+    private Boolean isAsking;
+    private int question_answer_number;
+    private HashMap<Integer,String> questions = new HashMap<Integer,String>();
+    private HashMap<Integer,String> answers = new HashMap<Integer,String>();
     
     Talking(){
         isAsking = true;
@@ -25,11 +25,38 @@ public class Talking {
         setAnswers();
     }
     
-    public void ask(){
-        if(isAsking){
-            
+    public synchronized void ask(){
+        
+        if(!isAsking){
+            try{
+                wait();
+            }
+            catch(InterruptedException e){
+                System.out.println("Interrupted");
+            }
         }
+        //Thread.sleep(2000);
+        System.out.println(questions.get(question_answer_number));  
+        isAsking = false;
+        notify();
     }
+    
+    public synchronized void answer(){
+        System.out.println("Here");
+        if(isAsking){
+            try{
+                wait();
+            }
+            catch(InterruptedException e){
+                System.out.println("Interrupted");
+            }
+        }
+        //Thread.sleep(2000);
+        System.out.println(answers.get(question_answer_number));      
+        question_answer_number++;
+        isAsking = true;
+        notify();
+    }    
     
     private void setQuestions(){
         questions.put(0,"What is your name?");
